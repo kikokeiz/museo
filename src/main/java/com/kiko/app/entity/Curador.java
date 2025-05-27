@@ -12,6 +12,8 @@ public class Curador {
     private String nombre;
     private String numeroEmpleado;
 
+    private Integer edad;
+
     @OneToOne(mappedBy = "curador", cascade = CascadeType.ALL)
     private Sede sede;
 
