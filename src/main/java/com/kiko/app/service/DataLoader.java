@@ -1,27 +1,28 @@
-package com.ejemplo.museo;
+package com.kiko.app.service;
 
-import com.ejemplo.museo.model.*;
-import com.ejemplo.museo.repository.*;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import com.kiko.app.entity.Curador;
+import com.kiko.app.entity.Exposicion;
+import com.kiko.app.entity.Sede;
+import com.kiko.app.repository.CuradorRepository;
+import com.kiko.app.repository.ExposicionRepository;
+import com.kiko.app.repository.SedeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Component
-public class DataLoader implements CommandLineRunner {
+@Service
+public class DataLoader {
 
-    private final CuradorRepository curadorRepo;
-    private final SedeRepository sedeRepo;
-    private final ExposicionRepository expoRepo;
+    @Autowired
+    private CuradorRepository curadorRepo;
+    @Autowired
+    private SedeRepository sedeRepo;
+    @Autowired
+    private ExposicionRepository expoRepo;
 
-    public DataLoader(CuradorRepository curadorRepo, SedeRepository sedeRepo, ExposicionRepository expoRepo) {
-        this.curadorRepo = curadorRepo;
-        this.sedeRepo = sedeRepo;
-        this.expoRepo = expoRepo;
-    }
-
-    @Override
-    public void run(String... args) {
+    public void guardameEnBD() {
         Curador c1 = new Curador();
         c1.setNombre("Ana Torres");
         c1.setNumeroEmpleado("C001");
@@ -67,5 +68,13 @@ public class DataLoader implements CommandLineRunner {
         curadorRepo.findCuradoresConSedePequena().forEach(row ->
                 System.out.println(" - " + row[0] + " (" + row[1] + ")")
         );
+
+
+        Optional<Curador> bobsponga = curadorRepo.findByNombre("Bobsponga");
+        if (bobsponga.isPresent()) {
+            curadorRepo.delete(bobsponga.get());
+
+        }
+
     }
 }

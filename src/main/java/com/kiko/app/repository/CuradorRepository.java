@@ -1,11 +1,18 @@
-package com.ejemplo.museo.repository;
+package com.kiko.app.repository;
 
-import com.ejemplo.museo.model.Curador;
+import com.kiko.app.entity.Curador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
+@Repository
 public interface CuradorRepository extends JpaRepository<Curador, Long> {
+
+    Optional<Curador> findByNombre(String nombre);
+
     List<Curador> findByExposicionesIsEmpty();
 
     @Query("SELECT c.nombre, c.sede.direccion FROM Curador c WHERE c.sede.capacidad < 100")
